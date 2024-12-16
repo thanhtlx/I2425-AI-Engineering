@@ -29,9 +29,9 @@ The project uses a public dataset containing anonymized credit card transaction 
 
 ## Tools and Technologies
 
-- **Programming Languages**: Python
+- **Programming Languages**: Python 3.10
 - **Libraries**: 
-  - FILL
+  - reqs.txt
 - **Frameworks**: FILL
 - **Version Control**: GitHub
 - **Environment**: FILL
