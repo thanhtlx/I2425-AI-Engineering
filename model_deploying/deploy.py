@@ -5,10 +5,12 @@ import numpy as np
 import joblib
 import os
 from fastapi import Body
+import mlflow
+from time import time
 
 
 class Transaction(BaseModel):
-    merchant: int
+    merchant: str
     category: str
     amt: float
     gender: str
@@ -42,7 +44,7 @@ class Transaction(BaseModel):
 app = FastAPI(swagger_ui_parameters={"syntaxHighlight": True})
 
 
-model_path = os.getenv("MODEL_PATH", "model.pkl")
+model_path = os.getenv("MODEL_PATH", "svc_model.pkl")
 # Load the pre-trained SVC model (ensure to replace 'svc_model.pkl' with your actual model file path)
 try:
     model = joblib.load(model_path)
@@ -58,21 +60,41 @@ def health():
 # Endpoint for making predictions
 @app.post("/predict")
 def predict(data: Transaction):
-    print(data.to_dict())
     features = process_user_input(data.to_dict())
-    try:
-        # Perform prediction
-        print('features',features)
-        prediction = model.predict(features)
-        probability = (
-            model.predict_proba(features)
-            if hasattr(model, "predict_proba")
-            else 1
-        )
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Prediction error: {e}")
+    mlflow.set_experiment("FastAPI Model Monitoring")
+    with mlflow.start_run():
+        start_time = time()
+        try:
+            # Perform prediction
+            prediction = model.predict(features)
+            probability = (
+                model.predict_proba(features)
+                if hasattr(model, "predict_proba")
+                else None
+            )
+        except Exception as e:
+            mlflow.log_metric("failed_requests", 1)
+            raise HTTPException(status_code=400, detail=f"Prediction error: {e}")
 
-    # Return prediction result
-    response = {"prediction": prediction[0].item(), "probability": probability}
-    print(response)
-    return response
+        # Calculate latency
+        latency = time() - start_time
+
+        # Log metrics to MLflow
+        mlflow.log_metric("latency", latency)
+        mlflow.log_metric("amt", data.amt)
+        mlflow.log_metric("city_pop", data.city_pop)
+        mlflow.log_metric("successful_requests", 1)
+
+        # Optional: Log predictions
+        prediction = float(prediction.item())
+        probability = float(dict(probability)[1].item())
+        mlflow.log_param("prediction", prediction)
+        if probability is not None:
+            mlflow.log_metric("probability",probability )
+
+        # Return prediction result
+        response = {
+            "prediction": prediction,
+            "probability": probability,
+        }
+        return response
