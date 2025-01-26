@@ -23,6 +23,7 @@ def train(data_dir):
 
     # Set the MLflow registry URI
     mlflow.set_registry_uri(mlflow_registry_uri)
+    # remove the AutogluonModels directory
     autogluon_model.clean_up()
 
     with mlflow.start_run():
@@ -38,6 +39,7 @@ def train(data_dir):
 
         # Log the model
         mlflow.log_artifact(autogluon_model.folder_path)
+        mlflow.log_artifact(url)
 
     print(url, metrics)
     return url, metrics
