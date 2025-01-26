@@ -4,7 +4,7 @@ from utils.save_model import save_model
 from utils.model import get_model
 from validation.validation import validate
 from data_processing.data_processing import process_training_data
-
+pd.options.mode.copy_on_write = True
 
 # INPUT train
 def train(data_dir):
@@ -12,14 +12,11 @@ def train(data_dir):
     # load data
     df_train = get_data_frame(data_dir + "/train.csv")
     df_test = get_data_frame(data_dir + "/test.csv")
-
     # preproces data
-    X_train, Y_train = process_training_data(df_train)
-
+    train_data = process_training_data(df_train)
     # TODO: tuning, analysis loss
-    model = get_model("svc")
-    model.fit(X_train, Y_train)
-
+    model = get_model("auto",)
+    model.fit(train_data=train_data)
     # TODO: actionale inside
     metrics = validate(model, df_test)
     url = save_model(model)

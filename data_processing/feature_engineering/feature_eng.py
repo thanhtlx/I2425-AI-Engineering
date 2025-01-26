@@ -1,31 +1,30 @@
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder
 
 
 def feature_engineering(df):
-    try:
-        df.drop(
-            columns=[
-                "Unnamed: 0",
-                "cc_num",
-                "first",
-                "last",
-                "street",
-                "city",
-                "state",
-                "zip",
-                "dob",
-                "trans_num",
-                "trans_date_trans_time",
-            ],
-            inplace=True,
-        )
-    except:
-        pass
-    encoder = LabelEncoder()
-    print("columns", df.columns)
-    df["merchant"] = encoder.fit_transform(df["merchant"])
-    df["category"] = encoder.fit_transform(df["category"])
-    df["gender"] = encoder.fit_transform(df["gender"])
-    df["job"] = encoder.fit_transform(df["job"])
+    columns = [
+            "trans_date_trans_time",
+            "merchant",
+            "category",
+            "amt",
+            "gender",
+            "lat",
+            "long",
+            "city_pop",
+            "job",
+            "unix_time",
+            "merch_lat",
+            "merch_long",
+    ]
+    if 'label' in df.columns:
+        columns.append('label')
+    print(df.head(1))
+    df = df[columns]
+    print(df["trans_date_trans_time"])
+    df["month"] = pd.to_datetime(df["trans_date_trans_time"]).dt.month
+    df["day"] = pd.to_datetime(df["trans_date_trans_time"]).dt.day
+    df["year"] = pd.to_datetime(df["trans_date_trans_time"]).dt.year
+    df["normalized_amt"] = (df["amt"] - df["amt"].min()) / (
+        df["amt"].max() - df["amt"].min()
+    )
     return df
