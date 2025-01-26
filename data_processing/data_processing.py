@@ -15,10 +15,9 @@ def process_training_data(data):
     data = augmentate(data)
     # feature
     data = feature_engineering(data)
-
-    X = data.drop(columns=["is_fraud"], inplace=False)
-    Y = data["is_fraud"]
-    return X, Y
+    # X = data.drop(columns=["label"], inplace=False)
+    # Y = data["label"]
+    return data
 
 
 def process_testing_data(data):
@@ -27,9 +26,9 @@ def process_testing_data(data):
     # 4: feature engineering
     data = clean(data)
     data = feature_engineering(data)
-    if "is_fraud" in data.columns:
-        X = data.drop(columns=["is_fraud"], inplace=False)
-        Y = data["is_fraud"]
+    if "label" in data.columns:
+        X = data.drop(columns=["label"], inplace=False)
+        Y = data["label"]
         return X, Y
     else:
         return data, []

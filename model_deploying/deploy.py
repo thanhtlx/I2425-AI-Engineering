@@ -19,9 +19,11 @@ class Transaction(BaseModel):
     unix_time: int
     merch_lat: float
     merch_long: float
+    trans_date_trans_time: str
 
     def to_dict(self):
         return {
+            "trans_date_trans_time":self.trans_date_trans_time,
             "merchant": self.merchant,
             "category": self.category,
             "amt": self.amt,
@@ -40,7 +42,7 @@ class Transaction(BaseModel):
 app = FastAPI(swagger_ui_parameters={"syntaxHighlight": True})
 
 
-model_path = os.getenv("MODEL_PATH", "svc_model.pkl")
+model_path = os.getenv("MODEL_PATH", "model.pkl")
 # Load the pre-trained SVC model (ensure to replace 'svc_model.pkl' with your actual model file path)
 try:
     model = joblib.load(model_path)
@@ -60,9 +62,10 @@ def predict(data: Transaction):
     features = process_user_input(data.to_dict())
     try:
         # Perform prediction
+        print('features',features)
         prediction = model.predict(features)
         probability = (
-            model.predict_proba(features).tolist()
+            model.predict_proba(features)
             if hasattr(model, "predict_proba")
             else 1
         )
