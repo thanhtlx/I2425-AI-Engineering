@@ -4,13 +4,21 @@ from utils.save_model import save_model
 from utils.model import get_model
 from validation.validation import validate
 from data_processing.data_processing import process_training_data
+
 pd.options.mode.copy_on_write = True
 import dagshub
 import mlflow
 from utils import autogluon_model
 
-dagshub.init(repo_owner='vrykolakas166', repo_name='fraud-detection-model-versioning', mlflow=True)
-mlflow_registry_uri = "https://dagshub.com/vrykolakas166/fraud-detection-model-versioning.mlflow"
+dagshub.init(
+    repo_owner="vrykolakas166",
+    repo_name="fraud-detection-model-versioning",
+    mlflow=True,
+)
+mlflow_registry_uri = (
+    "https://dagshub.com/vrykolakas166/fraud-detection-model-versioning.mlflow"
+)
+
 
 # INPUT train
 def train(data_dir):
@@ -28,7 +36,9 @@ def train(data_dir):
 
     with mlflow.start_run():
         # TODO: tuning, analysis loss
-        model = get_model("auto",)
+        model = get_model(
+            "auto",
+        )
         model.fit(train_data=train_data)
         # TODO: actionale inside
         metrics = validate(model, df_test)
