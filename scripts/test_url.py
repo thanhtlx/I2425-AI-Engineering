@@ -1,23 +1,24 @@
-import pandas as pd 
+import pandas as pd
+
 df = pd.read_csv("data/test.csv")
 columns = [
-            "trans_date_trans_time",
-            "merchant",
-            "category",
-            "amt",
-            "gender",
-            "lat",
-            "long",
-            "city_pop",
-            "job",
-            "unix_time",
-            "merch_lat",
-            "merch_long",
-    ]
-url = "http://localhost:8000/predict"  
+    "trans_date_trans_time",
+    "merchant",
+    "category",
+    "amt",
+    "gender",
+    "lat",
+    "long",
+    "city_pop",
+    "job",
+    "unix_time",
+    "merch_lat",
+    "merch_long",
+]
+url = "http://localhost:8000/predict"
 import requests
 
-for _,row in df.sample(100).iterrows():
+for _, row in df.sample(100).iterrows():
     body = dict()
     for cl in columns:
         body[cl] = row[cl]
@@ -28,4 +29,4 @@ for _,row in df.sample(100).iterrows():
     else:
         print("Failed with status code:", response.status_code)
         print("Error:", response.text)
-    print('_'*20)
+    print("_" * 20)

@@ -3,21 +3,21 @@ import pandas as pd
 
 def feature_engineering(df):
     columns = [
-            "trans_date_trans_time",
-            "merchant",
-            "category",
-            "amt",
-            "gender",
-            "lat",
-            "long",
-            "city_pop",
-            "job",
-            "unix_time",
-            "merch_lat",
-            "merch_long",
+        "trans_date_trans_time",
+        "merchant",
+        "category",
+        "amt",
+        "gender",
+        "lat",
+        "long",
+        "city_pop",
+        "job",
+        "unix_time",
+        "merch_lat",
+        "merch_long",
     ]
-    if 'label' in df.columns:
-        columns.append('label')
+    if "label" in df.columns:
+        columns.append("label")
     print(df.head(1))
     df = df[columns]
     print(df["trans_date_trans_time"])

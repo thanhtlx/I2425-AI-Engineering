@@ -25,7 +25,7 @@ class Transaction(BaseModel):
 
     def to_dict(self):
         return {
-            "trans_date_trans_time":self.trans_date_trans_time,
+            "trans_date_trans_time": self.trans_date_trans_time,
             "merchant": self.merchant,
             "category": self.category,
             "amt": self.amt,
@@ -90,7 +90,7 @@ def predict(data: Transaction):
         probability = float(dict(probability)[1].item())
         mlflow.log_param("prediction", prediction)
         if probability is not None:
-            mlflow.log_metric("probability",probability )
+            mlflow.log_metric("probability", probability)
 
         # Return prediction result
         response = {

@@ -4,4 +4,5 @@ uvicorn
 scikit-learn
 joblib
 autogluon
+dagshub
 mlflow
