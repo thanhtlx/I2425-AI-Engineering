@@ -9,6 +9,16 @@ pd.options.mode.copy_on_write = True
 import dagshub
 import mlflow
 from utils import autogluon_model
+import logging
+
+logging.basicConfig(
+    level=logging.DEBUG,  # Set the log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    format="%(asctime)s - %(levelname)s - %(message)s",  # Log message format
+    filename="app.log",  # File to write logs to
+    filemode="a",  # Append to the file (use 'w' to overwrite)
+)
+logger = logging.getLogger(__name__)
+
 
 dagshub.init(
     repo_owner="vrykolakas166",
@@ -23,12 +33,15 @@ mlflow_registry_uri = (
 # INPUT train
 def train(data_dir):
     # load data
+    logger.info('Starting training: '+data_dir)
     df_train = get_data_frame(data_dir + "/train.csv")
     df_test = get_data_frame(data_dir + "/test.csv")
 
     # preproces data
+    logger.info("Processing training data: "+str(df_train.shape))
     train_data = process_training_data(df_train)
 
+    logger.info("Done processing training data: " + str(df_train.shape))
     # Set the MLflow registry URI
     mlflow.set_registry_uri(mlflow_registry_uri)
     # remove the AutogluonModels directory
@@ -36,12 +49,16 @@ def train(data_dir):
 
     with mlflow.start_run():
         # TODO: tuning, analysis loss
+        logger.info("Get auto model: ")
         model = get_model(
             "auto",
         )
+        logger.info("Starting training model")
         model.fit(train_data=train_data)
         # TODO: actionale inside
+        logger.info("Evaluate  model")
         metrics = validate(model, df_test)
+        logger.info("Save  model")
         url = save_model(model)
 
         # Log metrics
