@@ -38,3 +38,31 @@ jobs:
         run: |
           export PYTHONPATH="${GITHUB_WORKSPACE}:$PYTHONPATH"
           pytest tests --verbose
+
+  run-training-pipeline-and-register-model:
+    name: Continuous Delivery
+    needs: integration
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r reqs.txt
+
+      - name: Set DAGsHub Token
+        run: echo "DAGSHUB_TOKEN=${{ secrets.DAGSHUB_TOKEN }}" >> $GITHUB_ENV
+
+      - name: Train model
+        run: |
+          export PYTHONPATH="${GITHUB_WORKSPACE}:$PYTHONPATH"
+          python pipeline/training_pipeline.py
