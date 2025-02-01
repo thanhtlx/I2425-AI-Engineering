@@ -32,15 +32,16 @@ mlflow_registry_uri = (
     "https://dagshub.com/vrykolakas166/fraud-detection-model-versioning.mlflow"
 )
 
+
 # INPUT train
 def train(data_dir):
     # load data
-    logger.info('Starting training: '+data_dir)
+    logger.info("Starting training: " + data_dir)
     df_train = get_data_frame(data_dir + "/train.csv")
     df_test = get_data_frame(data_dir + "/test.csv")
 
     # preproces data
-    logger.info("Processing training data: "+str(df_train.shape))
+    logger.info("Processing training data: " + str(df_train.shape))
     train_data = process_training_data(df_train)
 
     logger.info("Done processing training data: " + str(df_train.shape))
