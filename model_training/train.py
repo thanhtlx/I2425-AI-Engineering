@@ -1,14 +1,15 @@
 import pandas as pd
-from utils.get_data_frame import get_data_frame
-from utils.save_model import save_model
-from utils.model import get_model
-from validation.validation import validate
+from model_training.utils.get_data_frame import get_data_frame
+from model_training.utils.save_model import save_model
+from model_training.utils.model import get_model
+from model_training.validation.validation import validate
 from data_processing.data_processing import process_training_data
+from model_training.utils import autogluon_model
 
 pd.options.mode.copy_on_write = True
 import dagshub
 import mlflow
-from utils import autogluon_model
+import os
 import logging
 
 logging.basicConfig(
@@ -20,6 +21,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+dagshub_token = os.getenv("DAGSHUB_TOKEN")
+dagshub.auth.add_app_token(dagshub_token)  # Authenticate using the token
 dagshub.init(
     repo_owner="vrykolakas166",
     repo_name="fraud-detection-model-versioning",
@@ -28,7 +31,6 @@ dagshub.init(
 mlflow_registry_uri = (
     "https://dagshub.com/vrykolakas166/fraud-detection-model-versioning.mlflow"
 )
-
 
 # INPUT train
 def train(data_dir):
@@ -61,6 +63,7 @@ def train(data_dir):
         logger.info("Save  model")
         url = save_model(model)
 
+        mlflow.log_param("best_model_by_validation_score", model.model_best)
         # Log metrics
         mlflow.log_metrics(metrics)
 
