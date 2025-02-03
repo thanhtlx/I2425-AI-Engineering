@@ -1,7 +1,7 @@
 from dagshub import get_repo_bucket_client
 from dagshub.upload import Repo
 from dagshub.streaming import DagsHubFilesystem
-from model_training.utils.get_data_frame import get_data_frame
+import shutil
 import os
 
 
@@ -39,6 +39,7 @@ class DagsHubStorageBucket:
 
         :param local_path: The local path of the file to upload.
         :param remote_path: The remote path where the file will be stored in the repository.
+        :param enable_versioning: If True, enables DVC versioning for the uploaded files.
         """
 
         # self.boto_client.upload_file(
@@ -56,6 +57,25 @@ class DagsHubStorageBucket:
         print(f"File '{local_path}' uploaded to '{remote_path}'.")
 
         return remote_path
+
+    def zip_file(self, folder_path, output_name):
+        """
+        Zips the directory for storage or upload.
+
+        Args:
+            folder_path (str): The directory.
+            output_name (str): The output zip file name.
+
+        Returns:
+            str: Path to the zipped file.
+        """
+        if not os.path.exists(folder_path):
+            raise FileNotFoundError(f"{folder_path} does not exist!")
+
+        zip_path = shutil.make_archive(output_name, "zip", folder_path)
+        print(f"Zipped {folder_path} to {zip_path}")
+
+        return zip_path
 
     def download_file(self, remote_path):
         """

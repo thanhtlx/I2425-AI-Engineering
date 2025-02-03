@@ -11,6 +11,12 @@ on:
       - master
     paths-ignore:
       - "README.md"
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "API triggering the workflow"
+        required: false
+        default: "Manual trigger"
 
 jobs:
   integration:
@@ -39,7 +45,7 @@ jobs:
           export PYTHONPATH="${GITHUB_WORKSPACE}:$PYTHONPATH"
           pytest tests --verbose
 
-  run-training-pipeline-and-register-model:
+  run-training-pipeline:
     name: Continuous Delivery
     needs: integration
     runs-on: ubuntu-latest
@@ -66,3 +72,40 @@ jobs:
         run: |
           export PYTHONPATH="${GITHUB_WORKSPACE}:$PYTHONPATH"
           python pipeline/training_pipeline.py
+
+  # evaluate model before deploying to Cloud Run
+
+  deploy-to-cloud-run:
+    name: Continuous Deployment
+    needs: run-training-pipeline
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: fraud-detection-uni
+
+      - name: Configure Docker
+        run: gcloud auth configure-docker gcr.io
+
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t gcr.io/fraud-detection-uni/fraud-detection-api:latest .
+          docker push gcr.io/fraud-detection-uni/fraud-detection-api:latest
+
+      - name: Deploy to Google Cloud Run
+        run: |
+          gcloud run deploy fraud-detection-api \
+            --image gcr.io/fraud-detection-uni/fraud-detection-api:latest \
+            --platform managed \
+            --region asia-southeast1 \
+            --allow-unauthenticated
