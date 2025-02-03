@@ -3,6 +3,6 @@ fastapi
 uvicorn
 scikit-learn
 joblib
-autogluon
+autogluon.tabular
 dagshub
 mlflow

@@ -1,4 +1,4 @@
-from validation.metrics.calc_metrics import calc_metrics
+from model_training.validation.metrics.calc_metrics import calc_metrics
 
 from data_processing.data_processing import process_testing_data
 
