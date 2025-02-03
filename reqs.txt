@@ -5,4 +5,5 @@ scikit-learn
 joblib
 autogluon.tabular
 dagshub
+google-cloud-storage
 mlflow
