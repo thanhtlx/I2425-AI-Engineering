@@ -2,6 +2,7 @@ from google.cloud import storage
 import os
 import shutil
 
+
 class GCSStorageBucket:
     def __init__(self, bucket_name):
         """
@@ -35,7 +36,7 @@ class GCSStorageBucket:
         """
         if not os.path.exists(folder_path):
             raise FileNotFoundError(f"{folder_path} does not exist!")
-        
+
         zip_path = shutil.make_archive(output_name, "zip", folder_path)
         print(f"Zipped {folder_path} to {zip_path}")
         return zip_path

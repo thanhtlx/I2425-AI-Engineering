@@ -20,13 +20,10 @@ class TrainingPipeline:
             )
 
             self.gcs.upload_file(
-                zip_path,
-                f"final_model/deploy/{autogluon_model.folder_path}.zip"
+                zip_path, f"final_model/deploy/{autogluon_model.folder_path}.zip"
             )
 
-            self.gcs.upload_file(
-                model_file, f"final_model/deploy/model.pkl"
-            )
+            self.gcs.upload_file(model_file, f"final_model/deploy/model.pkl")
 
         except Exception as e:
             raise e
@@ -35,6 +32,6 @@ class TrainingPipeline:
 if __name__ == "__main__":
     tp = TrainingPipeline()
     data_dir = "data"
-    tp.gcs.download_file(f"{data_dir}/test.csv",f"{data_dir}/test.csv")
-    tp.gcs.download_file(f"{data_dir}/train.csv",f"{data_dir}/train.csv")
+    tp.gcs.download_file(f"{data_dir}/test.csv", f"{data_dir}/test.csv")
+    tp.gcs.download_file(f"{data_dir}/train.csv", f"{data_dir}/train.csv")
     tp.run(data_dir)
