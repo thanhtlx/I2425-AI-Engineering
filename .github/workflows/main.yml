@@ -114,3 +114,4 @@ jobs:
             --platform managed \
             --region asia-southeast1 \
             --allow-unauthenticated
+            --set-env-vars DAGSHUB_TOKEN=${{ secrets.DAGSHUB_TOKEN }}

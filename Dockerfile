@@ -4,6 +4,7 @@ FROM python:3.10-slim
 WORKDIR /home/runner/work/I2425-AI-Engineering/I2425-AI-Engineering
 
 # Copy only required files to reduce build size
+COPY data_processing /home/runner/work/I2425-AI-Engineering/I2425-AI-Engineering/data_processing
 COPY model_deploying /home/runner/work/I2425-AI-Engineering/I2425-AI-Engineering/model_deploying
 COPY reqs.txt /home/runner/work/I2425-AI-Engineering/I2425-AI-Engineering/reqs.txt    
 
@@ -24,7 +25,7 @@ RUN curl -L -o /tmp/AutogluonModels.zip "https://storage.googleapis.com/fraud-de
     && rm /tmp/AutogluonModels.zip
 
 # Set environment variables
-ENV PORT=8080
+ENV DAGSHUB_TOKEN=9b376c0de034c9caeca7346bf22a198ada8eeb58
 ENV MODEL_PATH=/home/runner/work/I2425-AI-Engineering/I2425-AI-Engineering/output
 
 # Expose FastAPI's default port
