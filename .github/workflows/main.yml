@@ -104,7 +104,7 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build -t gcr.io/fraud-detection-uni/fraud-detection-api:latest .
+          docker buildx build --platform linux/amd64 -t gcr.io/fraud-detection-uni/fraud-detection-api:latest .
           docker push gcr.io/fraud-detection-uni/fraud-detection-api:latest
 
       - name: Deploy to Google Cloud Run
