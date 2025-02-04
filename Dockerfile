@@ -2,7 +2,10 @@ FROM python:3.10-slim
 
 # Set working directory
 WORKDIR /home/runner/work/I2425-AI-Engineering/I2425-AI-Engineering
-COPY . /home/runner/work/I2425-AI-Engineering/I2425-AI-Engineering
+
+# Copy only required files to reduce build size
+COPY model_deploying /home/runner/work/I2425-AI-Engineering/I2425-AI-Engineering/model_deploying
+COPY reqs.txt /home/runner/work/I2425-AI-Engineering/I2425-AI-Engineering/reqs.txt    
 
 # Install dependencies
 RUN apt-get update -y && apt-get install -y curl unzip \
@@ -21,6 +24,7 @@ RUN curl -L -o /tmp/AutogluonModels.zip "https://storage.googleapis.com/fraud-de
     && rm /tmp/AutogluonModels.zip
 
 # Set environment variables
+ENV PORT=8080
 ENV MODEL_PATH=/home/runner/work/I2425-AI-Engineering/I2425-AI-Engineering/output
 
 # Expose FastAPI's default port
