@@ -18,9 +18,7 @@ class TrainingPipeline:
                 output_name="AutogluonModels",
             )
 
-            self.gcs.upload_file(
-                zip_path, f"final_model/deploy/AutogluonModels.zip"
-            )
+            self.gcs.upload_file(zip_path, f"final_model/deploy/AutogluonModels.zip")
 
         except Exception as e:
             raise e

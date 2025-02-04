@@ -16,6 +16,7 @@ mlflow_tracking_uri = (
     "https://dagshub.com/vrykolakas166/fraud-detection-model-versioning.mlflow"
 )
 
+
 class Transaction(BaseModel):
     merchant: str
     category: str
