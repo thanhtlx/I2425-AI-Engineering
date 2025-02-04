@@ -10,27 +10,43 @@ This project focuses on building a machine learning system for detecting fraudul
 
 1. **Data Preprocessing**: Prepare and clean the credit card transactions dataset to ensure high data quality.
 2. **v.v**
+
 ---
 
 ## Dataset
 
 The project uses a public dataset containing anonymized credit card transaction records. The dataset includes:
-- **Number of Transactions**: 
-- **Fraudulent Transactions**: 
+
+- **Number of Transactions**:
+- **Fraudulent Transactions**:
 - **Features**: x numerical features, including v.v.
 
 ---
 
 ## Workflow
 
-#TODO
+> **1. Continuous Integration**
+>
+> - Lint code
+> - Run unit tests
+
+> **2. Continuous Delivery**
+>
+> - Train model
+> - Push model to cloud storage
+
+> **3. Continuous Deployment**
+>
+> - Build and Push Docker Image
+> - Deploy to Google Cloud Run
+> - Test API endpoint
 
 ---
 
 ## Tools and Technologies
 
 - **Programming Languages**: Python 3.10
-- **Libraries**: 
+- **Libraries**:
   - reqs.txt
 - **Frameworks**: FILL
 - **Version Control**: GitHub

@@ -4,7 +4,6 @@ from model_training.utils.save_model import save_model
 from model_training.utils.model import get_model
 from model_training.validation.validation import validate
 from data_processing.data_processing import process_training_data
-from model_training.utils import autogluon_model
 
 pd.options.mode.copy_on_write = True
 import dagshub
@@ -47,8 +46,6 @@ def train(data_dir):
     logger.info("Done processing training data: " + str(df_train.shape))
     # Set the MLflow registry URI
     mlflow.set_registry_uri(mlflow_registry_uri)
-    # remove the AutogluonModels directory
-    autogluon_model.clean_up()
 
     with mlflow.start_run():
         # TODO: tuning, analysis loss
@@ -69,8 +66,7 @@ def train(data_dir):
         mlflow.log_metrics(metrics)
 
         # Log the model
-        mlflow.log_artifact(autogluon_model.folder_path)
-        mlflow.log_artifact(url)
+        mlflow.log_artifact("output")
 
     print(url, metrics)
     return url, metrics
