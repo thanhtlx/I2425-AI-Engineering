@@ -25,7 +25,6 @@ RUN curl -L -o /tmp/AutogluonModels.zip "https://storage.googleapis.com/fraud-de
     && rm /tmp/AutogluonModels.zip
 
 # Set environment variables
-ENV DAGSHUB_TOKEN=9b376c0de034c9caeca7346bf22a198ada8eeb58
 ENV MODEL_PATH=/home/runner/work/I2425-AI-Engineering/I2425-AI-Engineering/output
 
 # Expose FastAPI's default port

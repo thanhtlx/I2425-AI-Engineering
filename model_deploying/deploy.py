@@ -7,6 +7,8 @@ from time import time
 from autogluon.tabular import TabularPredictor
 import dagshub
 
+dagshub_token = os.getenv("DAGSHUB_TOKEN")
+dagshub.auth.add_app_token(dagshub_token)  # Authenticate using the token
 dagshub.init(
     repo_owner="vrykolakas166",
     repo_name="fraud-detection-model-versioning",
