@@ -1,5 +1,4 @@
 from model_training.train import train
-from model_training.utils import autogluon_model
 from utils import GCSStorageBucket
 from datetime import datetime
 
@@ -11,19 +10,17 @@ class TrainingPipeline:
 
     def run(self, data_dir):
         try:
-            model_file, _ = train(data_dir)
+            train(data_dir)
 
             ## output model is going to dagshub storage bucket
             zip_path = self.gcs.zip_file(
-                folder_path=autogluon_model.folder_path,
-                output_name=autogluon_model.folder_path,
+                folder_path="output",
+                output_name="AutogluonModels",
             )
 
             self.gcs.upload_file(
-                zip_path, f"final_model/deploy/{autogluon_model.folder_path}.zip"
+                zip_path, f"final_model/deploy/AutogluonModels.zip"
             )
-
-            self.gcs.upload_file(model_file, f"final_model/deploy/model.pkl")
 
         except Exception as e:
             raise e
