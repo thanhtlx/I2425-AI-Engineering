@@ -1,14 +1,20 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from model_deploying.utils.utils import process_user_input
-import numpy as np
-import joblib
 import os
-from fastapi import Body
 import mlflow
 from time import time
-from autogluon.tabular import TabularDataset, TabularPredictor
+from autogluon.tabular import TabularPredictor
+import dagshub
 
+dagshub.init(
+    repo_owner="vrykolakas166",
+    repo_name="fraud-detection-model-versioning",
+    mlflow=True,
+)
+mlflow_tracking_uri = (
+    "https://dagshub.com/vrykolakas166/fraud-detection-model-versioning.mlflow"
+)
 
 class Transaction(BaseModel):
     merchant: str
@@ -64,6 +70,8 @@ def health():
 @app.post("/predict")
 def predict(data: Transaction):
     features = process_user_input(data.to_dict())
+    # Set the MLflow registry URI
+    mlflow.set_tracking_uri(mlflow_tracking_uri)
     mlflow.set_experiment("FastAPI Model Monitoring")
     with mlflow.start_run():
         start_time = time()
