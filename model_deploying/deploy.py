@@ -7,6 +7,7 @@ import os
 from fastapi import Body
 import mlflow
 from time import time
+from autogluon.tabular import TabularDataset, TabularPredictor
 
 
 class Transaction(BaseModel):
@@ -47,7 +48,9 @@ app = FastAPI(swagger_ui_parameters={"syntaxHighlight": True})
 model_path = os.getenv("MODEL_PATH", "svc_model.pkl")
 # Load the pre-trained SVC model (ensure to replace 'svc_model.pkl' with your actual model file path)
 try:
-    model = joblib.load(model_path)
+    # model = joblib.load(model_path)
+    model = TabularPredictor.load(model_path)
+
 except Exception as e:
     raise RuntimeError(f"Failed to load model from {model_path}: {e}")
 

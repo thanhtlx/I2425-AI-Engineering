@@ -8,5 +8,6 @@ def save_model(model, out_dir="output/model.pkl"):
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
 
-    dump(model, out_dir)
+    model.save()
+    # dump(model, out_dir)
     return out_dir
