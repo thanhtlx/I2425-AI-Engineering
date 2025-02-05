@@ -105,15 +105,6 @@ jobs:
           docker buildx build --platform linux/amd64 -t gcr.io/fraud-detection-uni/fraud-detection-api:latest .
           docker push gcr.io/fraud-detection-uni/fraud-detection-api:latest
 
-      - name: Check if DAGSHUB_TOKEN is set
-        run: |
-          if [ -z "${{ secrets.DAGSHUB_TOKEN }}" ]; then
-            echo "DAGSHUB_TOKEN is not set"
-            exit 1
-          else
-            echo "DAGSHUB_TOKEN is set"
-          fi
-
       - name: Deploy to Google Cloud Run
         run: |
           gcloud run deploy fraud-detection-api --image gcr.io/fraud-detection-uni/fraud-detection-api:latest --platform managed --region asia-southeast1 --allow-unauthenticated --set-env-vars DAGSHUB_TOKEN=${{ secrets.DAGSHUB_TOKEN }} --memory 4Gi --cpu 2 --min-instances 1 --max-instances 5
