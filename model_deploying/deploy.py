@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from contextlib import asynccontextmanager
 from pydantic import BaseModel
 from model_deploying.utils.utils import process_user_input
 import os
@@ -50,18 +51,29 @@ class Transaction(BaseModel):
         }
 
 
+# Global variable for model
+model = None
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global model
+    model_path = os.getenv("MODEL_PATH", "svc_model.pkl")  # Use correct path
+    try:
+        model = TabularPredictor.load(model_path)
+        print("✅ Model loaded successfully!")
+    except Exception as e:
+        raise RuntimeError(f"❌ Failed to load model: {e}")
+
+    # Set MLflow tracking URI and experiment
+    mlflow.set_tracking_uri(mlflow_tracking_uri)
+    mlflow.set_experiment("FastAPI Model Monitoring")
+    yield  # Keep the app running
+    print("🛑 Shutting down...")
+
+
 # Define the FastAPI app
-app = FastAPI(swagger_ui_parameters={"syntaxHighlight": True})
-
-
-model_path = os.getenv("MODEL_PATH", "svc_model.pkl")
-# Load the pre-trained SVC model (ensure to replace 'svc_model.pkl' with your actual model file path)
-try:
-    # model = joblib.load(model_path)
-    model = TabularPredictor.load(model_path)
-
-except Exception as e:
-    raise RuntimeError(f"Failed to load model from {model_path}: {e}")
+app = FastAPI(swagger_ui_parameters={"syntaxHighlight": True}, lifespan=lifespan)
 
 
 @app.get("/health")
@@ -74,8 +86,6 @@ def health():
 def predict(data: Transaction):
     features = process_user_input(data.to_dict())
     # Set the MLflow registry URI
-    mlflow.set_tracking_uri(mlflow_tracking_uri)
-    mlflow.set_experiment("FastAPI Model Monitoring")
     with mlflow.start_run():
         start_time = time()
         try:
