@@ -110,6 +110,7 @@ jobs:
           gcloud run deploy fraud-detection-api \
             --image gcr.io/fraud-detection-uni/fraud-detection-api:latest \
             --platform managed \
+            --memory 1Gi \
             --region asia-southeast1 \
             --allow-unauthenticated \
             --set-env-vars DAGSHUB_TOKEN=${{ secrets.DAGSHUB_TOKEN }}
