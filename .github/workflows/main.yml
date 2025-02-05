@@ -113,5 +113,5 @@ jobs:
             --image gcr.io/fraud-detection-uni/fraud-detection-api:latest \
             --platform managed \
             --region asia-southeast1 \
-            --allow-unauthenticated
+            --allow-unauthenticated \
             --set-env-vars DAGSHUB_TOKEN=${{ secrets.DAGSHUB_TOKEN }}
