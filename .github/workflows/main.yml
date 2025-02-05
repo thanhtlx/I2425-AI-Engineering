@@ -78,8 +78,6 @@ jobs:
           export PYTHONPATH="${GITHUB_WORKSPACE}:$PYTHONPATH"
           python pipeline/training_pipeline.py
 
-  # evaluate model before deploying to Cloud Run
-
   deploy-to-cloud-run:
     name: Continuous Deployment
     needs: run-training-pipeline
@@ -115,3 +113,15 @@ jobs:
             --region asia-southeast1 \
             --allow-unauthenticated \
             --set-env-vars DAGSHUB_TOKEN=${{ secrets.DAGSHUB_TOKEN }}
+
+      - name: Wait for 10s
+        run: sleep 10
+
+      - name: Get Cloud Run Service URL
+        run: |
+          echo "SERVICE_URL=$(gcloud run services describe fraud-detection-api --region asia-southeast1 --format 'value(status.url)')" >> $GITHUB_ENV
+
+      - name: Test API Endpoint
+        run: |
+          echo "Testing API at: $SERVICE_URL/health"
+          curl -X GET "$SERVICE_URL/health" --fail
