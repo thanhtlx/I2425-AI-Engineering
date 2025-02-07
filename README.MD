@@ -6,10 +6,14 @@ This project focuses on building a machine learning system for detecting fraudul
 
 ---
 
-## Key Objectives
+## Key Features
 
-1. **Data Preprocessing**: Prepare and clean the credit card transactions dataset to ensure high data quality.
-2. **v.v**
+1. **Build Model**: The entire pipeline consists of data filtering, data cleaning, training (with autogluon), validation
+2. **Testing**: Unit test and API test
+3. **Automated pipeline**: Save model weight on Google Cloud Storage
+4. **Non-ML**: Displaying transaction data on GUI
+5. **Monitoring**: Use Sentry to monitor and track errors, as well as sending email alerts
+6. **Data export**: Export data from Non-ML to re-train the model
 
 ---
 
@@ -43,24 +47,68 @@ The project uses a public dataset containing anonymized credit card transaction 
 
 ---
 
+## Repo Structure
+```
+I2425-AI-Engineering/
+├── data/  # Sample data
+├── data_preprocessing/  # Data preprocessing, including cleaning, filtering and feature engineering
+│   ├── data_cleaning/
+│   ├── data_filtering/
+│   └── feature_engineering/
+├── model_deploying/  # Model deployment and monitoring
+├── model_training/  # Model training and validation
+├── non_ml/  # Non-ML related files, including backend and frontend source code, Dockerfiles, and deployment scripts
+│   ├── be/
+│   │   ├── Dockerfile
+│   │   ├── docker-compose.yml  # Docker compose file for both FE and BE
+│   │   ├── .env.sample
+|   |   ├── README.md  # Readme for backend
+│   │   └── ... (backend source code files)
+│   └── fe/
+│       ├── Dockerfile
+│       ├── .env.sample
+|       ├── README.md  # Readme for frontend
+│       └── ... (frontend source code files)
+├── pipeline/  # Training pipeline
+├── scripts/  # Deploy scripts
+├── tests/  # Unit tests
+├── .gitignore
+├── Dockerfile  # ML Dockerfile
+├── README.md
+└── ... (other project files)
+```
+
 ## Tools and Technologies
 
-- **Programming Languages**: Python 3.10
-- **Libraries**:
-  - reqs.txt
-- **Frameworks**: FILL
-- **Version Control**: GitHub
-- **Environment**: FILL
+### Version Control: GitHub
+### ML flow 
+  - **Programming Languages**: Python 3.10
+  - **Libraries**:
+    - reqs.txt
+  - **Frameworks**:
+    - **Containerize**: Docker
+    - **Storage**: Google Cloud Storage
+    - **CI/CD**: GitHub Actions
+    - Dagshub
+    - Google Cloud Run
+    - Autogluon
+### Non-ML
+[![My Skills](https://skillicons.dev/icons?i=fastapi,vue,mysql,docker,sentry&perline=5)](https://skillicons.dev)
+  - **Backend**: FastAPI
+  - **Database**: MySQL 8.0
+  - **Dependency management**: poetry
+  - **Frontend**: VueJS
+  - **Containerize**: Docker and docker-compose
+  - **Performance Monitoring and Error Tracking**: Sentry
 
 ---
 
 ## Team Members
 
-- [Name 1]
-- [Name 2]
-- [Name 3]
-- [Name 4]
-
+- 23025107 - **Vũ Trọng Thanh**
+- 24025039 - **Nguyễn Trọng Phi**
+- 24025040 - **Phạm Bảo Phúc**
+- 24025041 - **Phạm Hồng Phúc**
 ---
 
 ## Deliverables
