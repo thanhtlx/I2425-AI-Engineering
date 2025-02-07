@@ -120,4 +120,3 @@ def delete_blob(bucket_name, blob_name):
 
 if __name__ == "__main__":
     list_blobs(config.GCS_BUCKET_NAME)
-
