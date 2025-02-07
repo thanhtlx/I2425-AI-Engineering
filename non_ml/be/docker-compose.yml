@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+    mysql:
+        image: mysql:8.0.32
+        environment:
+            - MYSQL_ROOT_PASSWORD=123456
+        ports:
+            - 3308:3306
+        networks:
+            - mysql
+        volumes:
+            - 2425i-fraud-value:/var/lib/mysql
+
+    backend:
+        image: backend
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            - GOOGLE_APPLICATION_CREDENTIALS=./credentials/fraud-detection-uni-abacdf07f6af.json
+        ports:
+            - "5000:5000"
+        networks:
+            - mysql
+        depends_on:
+            - mysql
+        env_file:
+            -   .env
+
+    frontend:
+        image: frontend
+        build:
+            context: ../fe
+            dockerfile: Dockerfile
+        ports:
+            - "3000:3000"
+        networks:
+            - mysql
+        depends_on:
+            - backend
+        env_file:
+            -   ../2425I_INT7024_Fraud_Transaction_FE/.env
+        environment:
+            - VITE_HOST=0.0.0.0
+volumes:
+    2425i-fraud-value:
+
+networks:
+    mysql:
+        driver: bridge
+
