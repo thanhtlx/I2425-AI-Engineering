@@ -39,7 +39,7 @@ services:
         depends_on:
             - backend
         env_file:
-            -   ../2425I_INT7024_Fraud_Transaction_FE/.env
+            -   ../fe/.env
         environment:
             - VITE_HOST=0.0.0.0
 volumes:
