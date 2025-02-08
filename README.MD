@@ -10,7 +10,7 @@ This project focuses on building a machine learning system for detecting fraudul
 
 1. **Build Model**: The entire pipeline consists of data filtering, data cleaning, training (with autogluon), validation
 2. **Testing**: Unit test and API test
-3. **Automated pipeline**: Save model weight on Google Cloud Storage
+3. **Automated pipeline**: Automated pipeline from build model to deploy model
 4. **Non-ML**: Displaying transaction data on GUI
 5. **Monitoring**: Use Sentry to monitor and track errors, as well as sending email alerts
 6. **Data export**: Export data from Non-ML to re-train the model
@@ -19,11 +19,7 @@ This project focuses on building a machine learning system for detecting fraudul
 
 ## Dataset
 
-The project uses a public dataset containing anonymized credit card transaction records. The dataset includes:
-
-- **Number of Transactions**:
-- **Fraudulent Transactions**:
-- **Features**: x numerical features, including v.v.
+The project uses a [kaggle public dataset](https://www.kaggle.com/datasets/kartik2112/fraud-detection) containing anonymized credit card transaction records. The dataset covers credit cards of 1000 customers doing transactions with a pool of 800 merchants.
 
 ---
 
