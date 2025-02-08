@@ -4,6 +4,8 @@
 
 This project focuses on building a machine learning system for detecting fraudulent credit card transactions. It is a team assignment for the **I2425-AI Engineering**. The goal is to design a system fraud detection that minimizes false positives while accurately identifying fraudulent activities.
 
+The demo video is available in the repository: [demo.mp4](https://github.com/thanhtlx/I2425-AI-Engineering/blob/master/demo.mp4)
+
 ---
 
 ## Key Features
@@ -48,6 +50,7 @@ The project uses a public dataset containing anonymized credit card transaction 
 ---
 
 ## Repo Structure
+
 ```
 I2425-AI-Engineering/
 ├── data/  # Sample data
@@ -81,25 +84,30 @@ I2425-AI-Engineering/
 ## Tools and Technologies
 
 ### Version Control: GitHub
-### ML flow 
-  - **Programming Languages**: Python 3.10
-  - **Libraries**:
-    - reqs.txt
-  - **Frameworks**:
-    - **Containerize**: Docker
-    - **Storage**: Google Cloud Storage
-    - **CI/CD**: GitHub Actions
-    - Dagshub
-    - Google Cloud Run
-    - Autogluon
+
+### ML flow
+
+- **Programming Languages**: Python 3.10
+- **Libraries**:
+  - reqs.txt
+- **Frameworks**:
+  - **Containerize**: Docker
+  - **Storage**: Google Cloud Storage
+  - **CI/CD**: GitHub Actions
+  - Dagshub
+  - Google Cloud Run
+  - Autogluon
+
 ### Non-ML
+
 [![My Skills](https://skillicons.dev/icons?i=fastapi,vue,mysql,docker,sentry&perline=5)](https://skillicons.dev)
-  - **Backend**: FastAPI
-  - **Database**: MySQL 8.0
-  - **Dependency management**: poetry
-  - **Frontend**: VueJS
-  - **Containerize**: Docker and docker-compose
-  - **Performance Monitoring and Error Tracking**: Sentry
+
+- **Backend**: FastAPI
+- **Database**: MySQL 8.0
+- **Dependency management**: poetry
+- **Frontend**: VueJS
+- **Containerize**: Docker and docker-compose
+- **Performance Monitoring and Error Tracking**: Sentry
 
 ---
 
@@ -109,6 +117,7 @@ I2425-AI-Engineering/
 - 24025039 - **Nguyễn Trọng Phi**
 - 24025040 - **Phạm Bảo Phúc**
 - 24025041 - **Phạm Hồng Phúc**
+
 ---
 
 ## Deliverables
