@@ -120,9 +120,8 @@ I2425-AI-Engineering/
 
 1. **Code Repository**: Well-documented Python scripts.
 2. **Video**: Summary of findings and recommendations.
-
 ---
-
+[![Demo Video](https://github.com/thanhtlx/I2425-AI-Engineering/blob/master/thumbnail.png)](https://github.com/thanhtlx/I2425-AI-Engineering/blob/master/demo.mp4)
 ## Acknowledgments
 
 We extend our gratitude to the I2425-AI Engineering instructors for their guidance throughout this project.
